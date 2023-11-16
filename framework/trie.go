@@ -20,6 +20,11 @@ type node struct {
 	childs []*node
 }
 
+func NewTree() *Tree {
+	root := newNode()
+	return &Tree{root}
+}
+
 func newNode() *node {
 	return &node{
 		isLast:  false,
@@ -101,7 +106,6 @@ func (tree *Tree) AddRouter(uri string, handler ControllerHandler) error {
 	if n.matchNode(uri) != nil {
 		return errors.New("route exist:" + uri)
 	}
-
 	segments := strings.Split(uri, "/")
 	//	对每个segment
 	for index, segment := range segments {
@@ -124,6 +128,7 @@ func (tree *Tree) AddRouter(uri string, handler ControllerHandler) error {
 
 		if objNode == nil {
 			cnode := newNode()
+			cnode.segment = segment
 			if isLast {
 				cnode.isLast = true
 				cnode.handler = handler

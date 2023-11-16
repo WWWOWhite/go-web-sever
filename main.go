@@ -6,10 +6,12 @@ import (
 )
 
 func main() {
+	core := framework.NewCore()
+	registerRouter(core)
 	server := &http.Server{
 		//	自定义请求核心处理函数
-		Handler: framework.NewCore(),
-		Addr:    ":8080",
+		Handler: core,
+		Addr:    ":8888",
 	}
 	server.ListenAndServe()
 }
